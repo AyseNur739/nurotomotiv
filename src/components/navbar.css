@@ -1,0 +1,69 @@
+/* src/components/Navbar.css */
+
+/* Navbar ana kapsayıcısı */
+.navbar {
+    background-color: #1f2937;
+    /* Lacivertimsi koyu arka plan */
+    color: white;
+    display: flex;
+    /* Yanyana dizme */
+    justify-content: space-between;
+    /* Logo sola, menü sağa */
+    align-items: center;
+    /* Dikey ortalama */
+    padding: 16px 48px;
+    /* İç boşluk (üst-alt 16px, sağ-sol 48px) */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Hafif alt gölge efekti */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Logo kısmı */
+.logo {
+    font-size: 1.8rem;
+    /* Büyük başlık */
+    font-weight: bold;
+    letter-spacing: 1px;
+    /* Harfler arası boşluk */
+    color: #00bcd4;
+    /* Açık mavi vurgu */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    /* Hafif gölge */
+}
+
+/* Menü bağlantılar listesi */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+    /* Linkler arası boşluk */
+    margin: 0;
+    padding: 0;
+}
+
+/* Menü bağlantılarının kendisi */
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.3s ease;
+}
+
+/* Hover efekti */
+.nav-links li a:hover {
+    color: #00bcd4;
+}
+
+/* Hover’da altta çizgi efekti */
+.nav-links li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px
+}
