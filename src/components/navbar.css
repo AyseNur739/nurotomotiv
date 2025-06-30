@@ -15,9 +15,7 @@
     /* İç boşluk (üst-alt 16px, sağ-sol 48px) */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     /* Hafif alt gölge efekti */
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+
 }
 
 /* Logo kısmı */
@@ -66,4 +64,24 @@
     bottom: 0;
     left: 0;
     height: 2px
+}
+
+/* Navbar'ı sabitle ve sayfa kaydırılsa bile yukarıda tut */
+.navbar {
+    position: fixed;
+    /* Sabitlenmiş pozisyon */
+    top: 0;
+    /* Sayfanın en üstünde */
+    left: 0;
+    /* Sayfanın en solunda */
+    width: 100%;
+    /* Tam genişlik */
+    z-index: 999;
+    /* Diğer içeriklerin üstünde */
+    background-color: #1f2937;
+    /* Menü arka plan rengi */
+    padding: 10px 20px;
+    /* İç boşluk */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Hafif gölge */
 }
