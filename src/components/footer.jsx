@@ -1,8 +1,16 @@
+import './Footer.css';
+
 export default function Footer() {
     return (
-        <footer className="bg-gray-100 py-6 mt-20 text-center text-sm text-gray-500">
-            <p>© 2025 Nur Otomotiv | Tüm hakları saklıdır.</p>
-            <p>İletişim: <a href="mailto:nur.otomotiv@gmail.com" className="text-blue-500">nur.otomotiv@gmail.com</a> | @nur_otomotiv</p>
+        <footer className="footer">
+            <div className="footer-top">
+                <p>© 2025 Nur Otomotiv</p>
+                <p><a href="mailto:nur.otomotiv@gmail.com">nur.otomotiv@gmail.com</a></p>
+            </div>
+            <div className="footer-bottom">
+                <p>Konya / Türkiye</p>
+                <p>@nur_otomotiv</p>
+            </div>
         </footer>
     );
 }
