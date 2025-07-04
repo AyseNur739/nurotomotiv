@@ -12,7 +12,7 @@
     /* Yukarıdan 5 birim (80px) boşluk - sayfadan ayırır */
 
     text-align: left;
-    /* Tüm yazılar ortalanır */
+    /* Yazılar sola hizalanır */
 
     font-size: 0.875rem;
     /* Metin boyutu küçük (14px) */
@@ -22,62 +22,10 @@
 
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.4);
     /* Üstten gelen hafif gölge efekti - 3D derinlik sağlar */
+
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     z-index: 999;
-}
-
-.footer a {
-    color: #60a5fa;
-    /* Canlı açık mavi renkli linkler */
-
-    text-decoration: none;
-    /* Altı çizili olmasın (varsayılanı kaldırır) */
-
-    transition: color 0.3s ease, text-decoration 0.3s ease;
-    /* Hover geçişlerinde yumuşak animasyon efekti */
-}
-
-.footer a:hover {
-    color: #3b82f6;
-    /* Hover olunca biraz daha koyu mavi renk */
-
-    text-decoration: underline;
-    /* Hoverda altı çizilir */
-}
-
-.footer p {
-    margin: 0.3rem 0;
-    /* Paragraflar arasında dikey 4.8px boşluk */
-
-    line-height: 1.6;
-    /* Satır aralığı - metinler sıkışık durmasın */
-}
-
-/* 🔁 Responsive destek – mobil uyumlu görünüm */
-@media (max-width: 640px) {
-    .footer {
-        font-size: 0.75rem;
-        /* Küçük ekranlarda yazı biraz küçülür (12px) */
-
-        padding: 1.5rem 0.5rem;
-        /* Mobilde daha az padding */
-    }
-}
-
-/* Sayfanın tümünü saran kapsayıcı */
-.page-container {
-    min-height: 100vh;
-    /* Görünüm yüksekliğini kapla */
-
-    display: flex;
-    flex-direction: column;
-}
-
-/* İçerik alanı - footer'ı aşağı itmek için esnek yapıda */
-.content-wrap {
-    flex: 1;
-    /* Sayfanın kalanını kaplasın, footer'ı alta iter */
 }

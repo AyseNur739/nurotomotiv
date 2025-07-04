@@ -1,8 +1,13 @@
 body {
+    padding: 0;
+    height: 100%;
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
     background-color: #f0f0f0;
     color: #333;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
 }
 
 .navbar {
