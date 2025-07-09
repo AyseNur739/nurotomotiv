@@ -7,16 +7,18 @@ import Kampanyalar from './pages/Kampanyalar';
 import SSS from './pages/SSS';
 import Iletisim from './pages/Iletisim';
 import Memnuniyet from './pages/Memnuniyet';
+import Toast from './pages/Toast';
+
+import { ToastContainer, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-  //jsx={}kullanarak yazıyoruz
-  //javascript kodlarını buraya yazıyoruz
   return (
-    //html kodlarını da buraya yazıyoruz
     <>
       <Navbar />
       <Routes>
         <Route path="/" element={<AnaSayfa />} />
+        <Route path="/toast" element={<Toast />} />
         <Route path="/hakkimizda" element={<Hakkimizda />} />
         <Route path="/kampanyalar" element={<Kampanyalar />} />
         <Route path="/sss" element={<SSS />} />
@@ -24,8 +26,23 @@ function App() {
         <Route path="/Memnuniyet" element={<Memnuniyet />} />
       </Routes>
       <Footer />
-    </> //fragment kapsayıccı div etkili
+
+      {/* Toast mesajlarını uygulamanın her yerinde göstermek için */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
+    </>
   );
 }
 
-export default App;// burada export demek dışarıya açıyorum demek 
+export default App;
