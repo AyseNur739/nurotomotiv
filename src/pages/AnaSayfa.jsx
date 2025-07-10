@@ -1,73 +1,66 @@
 import React, { useState } from 'react';
-import { toast } from 'react-toastify'; // Toast mesajları için
-import 'react-toastify/dist/ReactToastify.css'; // Gerekli CSS
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import { toast } from 'react-toastify';
 
 export default function AnaSayfa() {
-    // State'ler
     const [ariza, setAriza] = useState('');
     const [telefon, setTelefon] = useState('');
 
-    // Form gönderimi
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Telefon numarası kontrolü
-        if (!/^\d{11}$/.test(telefon)) {
-            toast.error('❌ Lütfen geçerli bir 11 haneli telefon numarası girin.');
+        if (!ariza || !telefon) {
+            toast.warning("Lütfen tüm alanları doldurun.");
             return;
         }
 
-        // Başarı mesajı
-        toast.success(`✅ Arızanızı aldık! En kısa sürede dönüş yapacağız.\n📞 ${telefon}\n🔧 ${ariza}`);
+        try {
+            const response = await fetch("http://localhost:5000/ariza-bildirim", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ ariza, telefon }),
+            });
 
-        // Formu sıfırla
-        setAriza('');
-        setTelefon('');
+            const data = await response.json();
+            if (response.ok) {
+                toast.success(data.message);
+                setAriza('');
+                setTelefon('');
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error("Sunucuya bağlanılamadı.");
+            console.error(error);
+        }
     };
 
     return (
-        <>
-            <Navbar />
-            <section className="text-center mt-12 px-4">
-                <h2 className="text-3xl font-bold text-gray-800 mb-6">Arıza Bildirimi</h2>
-
-                <form onSubmit={handleSubmit} className="flex flex-col items-center gap-5 max-w-md mx-auto bg-white p-6 rounded-xl shadow-lg">
-
-                    {/* Arıza metni */}
-                    <input
-                        type="text"
-                        placeholder="Arıza nedir?"
+        <div className="p-4 max-w-md mx-auto">
+            <h2 className="text-xl font-bold mb-4">Arıza Bildir</h2>
+            <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                    <label className="block mb-1">Arıza Açıklaması</label>
+                    <textarea
+                        className="w-full border p-2"
                         value={ariza}
                         onChange={(e) => setAriza(e.target.value)}
                         required
-                        className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                     />
-
-                    {/* Telefon numarası */}
+                </div>
+                <div className="mb-3">
+                    <label className="block mb-1">Telefon</label>
                     <input
-                        type="tel"
-                        placeholder="Telefon Numaranız (11 haneli)"
+                        type="text"
+                        className="w-full border p-2"
                         value={telefon}
                         onChange={(e) => setTelefon(e.target.value)}
-                        maxLength="11"
                         required
-                        className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                     />
-
-                    {/* Gönder butonu */}
-                    <button
-                        type="submit"
-                        className="bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-500 transition-colors duration-300 shadow-md"
-                    >
-                        Gönder
-                    </button>
-                </form>
-            </section>
-
-            {/* Toast mesajlarını gösterecek alan */}
-            <Footer />
-        </>
+                </div>
+                <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
+                    Gönder
+                </button>
+            </form>
+        </div>
     );
 }

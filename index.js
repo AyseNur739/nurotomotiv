@@ -1,53 +1,53 @@
-// // Gerekli modüller
-// import mysql from 'mysql2';
-// import express from 'express';
-// import cors from 'cors';
+import express from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
 
-// const app = express();
+const app = express();
 
-// // Middleware ayarları
-// app.use(cors()); // Farklı portlardaki frontend'ten gelen isteklere izin verir
-// app.use(express.json()); // JSON veri okuyabilmek için
+// Middleware
+app.use(cors());
+app.use(express.json());
 
-// // MySQL veritabanı bağlantısı
-// const db = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'root',
-//     password: '1315', // Şifren varsa buraya yaz
-//     database: 'ariza_sistemi',
-// });
+// MongoDB bağlantısı
+mongoose.connect('mongodb://localhost:27017/ariza_sistemi', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+    .then(() => console.log('✅ MongoDB bağlantısı başarılı'))
+    .catch((err) => console.error('❌ MongoDB bağlantı hatası:', err));
 
-// // Bağlantı testi
-// db.connect(err => {
-//     if (err) {
-//         console.error('❌ MySQL bağlantı hatası:', err);
-//     } else {
-//         console.log('✅ MySQL bağlantısı başarılı');
-//     }
-// });
+// Arıza Şeması ve Modeli
+const arizaSchema = new mongoose.Schema({
+    ariza: String,
+    telefon: String,
+    tarih: {
+        type: Date,
+        default: Date.now
+    }
+});
 
-// // Arıza bildirimi için POST API endpoint
-// app.post('/ariza-bildirim', (req, res) => {
-//     const { ariza, telefon } = req.body;
+const Ariza = mongoose.model('Ariza', arizaSchema);
 
-//     // Verilerin boş olup olmadığını kontrol et
-//     if (!ariza || !telefon) {
-//         return res.status(400).json({ message: 'Lütfen tüm alanları doldurun.' });
-//     }
+// POST endpoint – Arıza Kaydetme
+app.post('/ariza-bildirim', async (req, res) => {
+    const { ariza, telefon } = req.body;
 
-//     // SQL sorgusu ile veritabanına kayıt
-//     const sql = 'INSERT INTO ariza_kayit (ariza, telefon) VALUES (?, ?)';
-//     db.query(sql, [ariza, telefon], (err, result) => {
-//         if (err) {
-//             console.error('❌ Veritabanı hatası:', err);
-//             return res.status(500).json({ message: 'Kayıt sırasında hata oluştu.' });
-//         }
-//         res.status(200).json({ message: '✅ Kayıt başarıyla eklendi.' });
-//     });
-// });
+    if (!ariza || !telefon) {
+        return res.status(400).json({ message: 'Lütfen tüm alanları doldurun.' });
+    }
 
-// // Sunucuyu başlat
-// const PORT = 5000;
-// app.listen(PORT, () => {
-//     console.log(`🚀 Sunucu ${PORT} portunda çalışıyor`);
-// });
+    try {
+        const yeniAriza = new Ariza({ ariza, telefon });
+        await yeniAriza.save();
+        res.status(200).json({ message: '✅ Kayıt başarıyla MongoDB’ye eklendi.' });
+    } catch (err) {
+        console.error('❌ Kayıt hatası:', err);
+        res.status(500).json({ message: 'Kayıt sırasında hata oluştu.' });
+    }
+});
+
+// Sunucuyu başlat
+const PORT = 5000;
+app.listen(PORT, () => {
+    console.log(`🚀 Sunucu ${PORT} portunda çalışıyor`);
+});
