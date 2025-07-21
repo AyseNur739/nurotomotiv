@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { db } from "../firebase";
+import { collection, addDoc } from "firebase/firestore";
 
 export default function AnaSayfa() {
-    const [ariza, setAriza] = useState('');
-    const [telefon, setTelefon] = useState('');
+    const [ariza, setAriza] = useState("");
+    const [telefon, setTelefon] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -14,23 +16,18 @@ export default function AnaSayfa() {
         }
 
         try {
-            const response = await fetch("http://localhost:5000/ariza-bildirim", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ ariza, telefon }),
+            await addDoc(collection(db, "arizalar"), {
+                ariza,
+                telefon,
+                tarih: new Date()
             });
 
-            const data = await response.json();
-            if (response.ok) {
-                toast.success(data.message);
-                setAriza('');
-                setTelefon('');
-            } else {
-                toast.error(data.message);
-            }
+            toast.success("Arıza başarıyla bildirildi!");
+            setAriza("");
+            setTelefon("");
         } catch (error) {
-            toast.error("Sunucuya bağlanılamadı.");
-            console.error(error);
+            toast.error("Hata oluştu: " + error.message);
+            console.error("Firestore Hatası:", error);
         }
     };
 
@@ -57,7 +54,10 @@ export default function AnaSayfa() {
                         required
                     />
                 </div>
-                <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
+                <button
+                    type="submit"
+                    className="bg-blue-600 text-white px-4 py-2 rounded"
+                >
                     Gönder
                 </button>
             </form>
