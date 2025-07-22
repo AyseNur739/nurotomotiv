@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { db } from "../firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { db } from "../firebase"; // serverTimestamp buradan değil
+import { collection, addDoc, serverTimestamp } from "firebase/firestore"; // Doğru import burada
 
 export default function AnaSayfa() {
     const [ariza, setAriza] = useState("");
@@ -19,7 +19,7 @@ export default function AnaSayfa() {
             await addDoc(collection(db, "arizalar"), {
                 ariza,
                 telefon,
-                tarih: new Date()
+                createdAt: serverTimestamp() // Firestore sıralama için zaman damgası
             });
 
             toast.success("Arıza başarıyla bildirildi!");

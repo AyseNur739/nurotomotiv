@@ -1,6 +1,7 @@
 // src/firebase.js
+
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, serverTimestamp } from "firebase/firestore"; // <-- timestamp eklendi
 
 const firebaseConfig = {
     apiKey: "AIzaSyDPiwIerAgyujjF8p4MkOpX0TAJVMdck2M",
@@ -15,4 +16,5 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export { db };
+// timestamp kullanımı için dışa aktar
+export { db, serverTimestamp };

@@ -11,6 +11,14 @@ function Navbar() {
                 <li><Link to="/iletisim">İletişim</Link></li>
                 <li><Link to="/kampanyalar">Kampanyalar</Link></li>
                 <li><Link to="/sss">S.S.S.</Link></li>
+                {/* İşveren Girişi Linki */}
+                <li>
+                    <Link to="/admin/login" >
+                        İşveren Girişi
+                    </Link>
+                </li>
+
+
             </ul>
         </nav>
     );
